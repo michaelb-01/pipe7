@@ -1,0 +1,27 @@
+<div class="jobs-container">
+  <div class="job" *ngFor="let job of jobs | async">
+    <app-thumbnail #thumbnail [thumbUrl]="job.thumbUrl">
+      <div class="banner fade">
+        <a [routerLink]="['/job', job._id._str]">
+          <h1 class="cardTitle">{{job.client}}</h1>
+          <h3 class="cardTag">{{job.name}}</h3>
+        </a>
+      </div>
+    </app-thumbnail>
+  </div>
+</div>
+
+<!-- <md-grid-list cols="3" rowHeight="16:9" gutterSize="10">
+  <md-grid-tile *ngFor="let job of jobs | async" routerLink="/job">
+    <app-thumbnail #thumbnail [thumbUrl]="job.thumbUrl">
+      <div class="banner fade">
+        <a [routerLink]="['/job', job._id._str]">
+          <h1 class="cardTitle">{{job.client}}</h1>
+          <h3 class="cardTag">{{job.name}}</h3>
+        </a>
+      </div>
+    </app-thumbnail>
+  </md-grid-tile>
+</md-grid-list> -->
+
+<!-- <div class="timeline" #timeline (mousemove)="mousemove($event)"></div> -->

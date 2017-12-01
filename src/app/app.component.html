@@ -1,0 +1,46 @@
+<!-- <div  class="topnav"></div> -->
+
+<div id="wrapper">
+  <!-- LEFT -->
+  <div id="topnav">
+    <div class="hamburger-menu" [ngClass]="{open: sidenavLeft.opened}" (click)="sidenavLeft.toggle()">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <!-- CENTER -->
+    <ul id="top-nav-list">
+      <li>
+        <a [routerLink]="['/jobs']">Jobs</a>
+      </li>
+    </ul>
+
+    <!-- RIGHT -->
+    <button mat-mini-fab id="create-button" (click)="sidenavRight.toggle()">
+      <!-- <mat-icon class="mat-24" aria-label="Example icon-button with a heart icon">create</mat-icon> -->
+      <i class="material-icons">create</i>
+    </button>
+  </div>
+
+  <mat-sidenav-container class="container">
+    <mat-sidenav #sidenavLeft class="sidenav" align="start">
+      Jolly good!
+    </mat-sidenav>
+
+    <mat-sidenav #sidenavRight class="sidenav2" align="end">
+      <mat-form-field class="demo-full-width">
+        <input matInput placeholder="Favorite food" value="Sushi" #jobName>
+      </mat-form-field>
+
+      <button mat-mini-fab type="submit" (click)="createJob(jobName.value)">
+        Create Jobs
+      </button>
+    </mat-sidenav>
+
+    <router-outlet></router-outlet>
+  </mat-sidenav-container>
+</div>
+
+

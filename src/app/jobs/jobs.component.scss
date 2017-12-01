@@ -1,0 +1,58 @@
+.jobs-container {
+  display: flex;
+  justify-content: center;
+}
+
+.job {
+  width: 23%;
+  margin: 0 1%;
+}
+
+md-grid-tile {
+  background: lightblue;
+}
+
+.timeline {
+  height:50px;
+  width:600px;
+  background-color:green;
+}
+
+.banner {
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: column;
+  -webkit-flex-direction: column;
+  justify-content: center;
+  -webkit-justify-content: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 200;
+  color: white;
+  a {
+    z-index: 10;
+    pointer-events: all;
+  }
+  & > * {
+    text-align: center;
+  }
+  &:hover {
+    opacity: 0;
+  }
+}
+
+.fade {
+  -moz-transition-duration: 0.5s;
+  -webkit-transition-duration: 0.5s;
+  -o-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+  background-color: rgba(0,0,0,0.5); 
+  &:hover {
+    background-color: rgba(0,0,0,0);  // 0% opacity black
+  }
+}
