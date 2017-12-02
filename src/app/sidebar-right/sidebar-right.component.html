@@ -1,0 +1,30 @@
+<form class="form-container" (ngSubmit)="onSubmit(jobForm)" #jobForm="ngForm">
+  <div class="form-wrapper">
+
+    <h1>Create Job</h1>
+
+    <mat-form-field>
+      <input matInput placeholder="Client" required=True>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Agency" required=True>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Job Name" required=True>
+    </mat-form-field>
+
+    <!-- number of shots -->
+
+    <mat-form-field>
+      <input matInput type="number" placeholder="Number of Shots" value="20" min="1" max="300">
+    </mat-form-field>
+
+    <br>
+
+    <button mat-button type="submit">
+      Create Jobs
+    </button>
+  </div>
+</form>

@@ -29,13 +29,15 @@
 ////// CREATE BUTTON //////
 #create-button {
   position: absolute;
+  top: 0;
   right: 0;
-  margin: 10px;
-  height: 30px;
-  width: 30px;
-  i {
-    line-height: 15px;
+  margin: 5px;
+  .material-icons {
     font-size: 18px;
+  }
+  .mat-mini-fab {
+    width: 30px;
+    height: 30px;
   }
 }
 

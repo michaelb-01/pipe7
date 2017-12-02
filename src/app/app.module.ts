@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 
 import { RouterModule, Routes } from '@angular/router';
 
+import { FormsModule }   from '@angular/forms';
+
 import { CommonModule } from '@angular/common';
 
 import { MatButtonModule,
@@ -17,6 +19,7 @@ import 'hammerjs';
 
 import { JobsComponent } from './jobs/jobs.component';
 import { ThumbnailComponent } from './thumbnail/thumbnail.component';
+import { SidebarRightComponent } from './sidebar-right/sidebar-right.component';
 
 
 const appRoutes: Routes = [
@@ -32,11 +35,13 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     JobsComponent,
-    ThumbnailComponent
+    ThumbnailComponent,
+    SidebarRightComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    FormsModule,
     MatButtonModule,
     MatSidenavModule,
     MatInputModule,

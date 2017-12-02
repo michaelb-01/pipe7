@@ -18,10 +18,9 @@
     </ul>
 
     <!-- RIGHT -->
-    <button mat-mini-fab id="create-button" (click)="sidenavRight.toggle()">
+    <button mat-mini-fab color="primary" id="create-button" (click)="sidenavRight.toggle()">
       <!-- <mat-icon class="mat-24" aria-label="Example icon-button with a heart icon">create</mat-icon> -->
       <i class="material-icons">create</i>
-      
     </button>
   </div>
 
@@ -31,13 +30,7 @@
     </mat-sidenav>
 
     <mat-sidenav #sidenavRight class="sidenav2" align="end">
-      <mat-form-field class="demo-full-width">
-        <input matInput placeholder="Favorite food" value="Sushi" #jobName>
-      </mat-form-field>
-
-      <button mat-mini-fab type="submit" (click)="createJob(jobName.value)">
-        Create Jobs
-      </button>
+      <app-sidebar-right></app-sidebar-right>
     </mat-sidenav>
 
     <router-outlet></router-outlet>
