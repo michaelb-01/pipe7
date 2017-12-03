@@ -28,10 +28,12 @@
 
 ////// CREATE BUTTON //////
 #create-button {
+  width:36px;
+  height:36px;
   position: absolute;
   top: 0;
   right: 0;
-  margin: 5px;
+  margin: 8px;
   .material-icons {
     font-size: 18px;
   }

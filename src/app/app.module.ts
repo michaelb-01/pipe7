@@ -7,19 +7,22 @@ import { AppComponent } from './app.component';
 
 import { RouterModule, Routes } from '@angular/router';
 
-import { FormsModule }   from '@angular/forms';
+import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 
 import { CommonModule } from '@angular/common';
 
 import { MatButtonModule,
          MatSidenavModule,
-         MatInputModule } from '@angular/material';
+         MatInputModule,
+         MatTabsModule,
+         MatCheckboxModule,
+         MatSelectModule } from '@angular/material';
 
 import 'hammerjs';
 
 import { JobsComponent } from './jobs/jobs.component';
 import { ThumbnailComponent } from './thumbnail/thumbnail.component';
-import { SidebarRightComponent } from './sidebar-right/sidebar-right.component';
+import { JobFormComponent } from './job-form/job-form.component';
 
 
 const appRoutes: Routes = [
@@ -36,15 +39,19 @@ const appRoutes: Routes = [
     AppComponent,
     JobsComponent,
     ThumbnailComponent,
-    SidebarRightComponent
+    JobFormComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     MatButtonModule,
     MatSidenavModule,
     MatInputModule,
+    MatTabsModule,
+    MatCheckboxModule,
+    MatSelectModule,
     RouterModule.forRoot(
       appRoutes
       //{ enableTracing: true } // <-- debugging purposes only

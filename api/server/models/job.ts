@@ -4,7 +4,8 @@ export interface IJob {
   agency?: string;
   thumbUrl?: string;
   camera? : {
-    body?: string;
+    brand?: string;
+    type?: string;
     sensor?: {
       width?: number;
       height?: number;
@@ -31,7 +32,8 @@ export class Job implements IJob {
   agency:string = '';
   thumbUrl:string = '';
   camera:any = {
-    body: '',
+    brand: '',
+    type: '',
     sensor: {
       width: 0,
       height: 0,
