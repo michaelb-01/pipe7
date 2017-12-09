@@ -10,26 +10,32 @@ function camelize(str) {
   }).replace(/\s+/g, '');
 }
 
-function buildDir(obj,parent) {
-  for (var key in obj) {
-    console.log('created directory: ' + parent + key);
-    mkdirp(parent + key, function (err) {
+function createFolder(path) {
+  mkdirp(path, function (err) {
+      if (err) {
+        console.error(err)
+      }
+      //else { console.log('success'); }
+  });
+}
+
+function buildDir(folder,parentFolder) {
+  for (var key in folder) {
+    //console.log('created directory: ' + parentFolder + key);
+    mkdirp(parentFolder + key, function (err) {
         if (err) {
           console.error(err)
         }
         //else { console.log('success'); }
     });
   
-    if (typeof obj[key] == "object") {
-      buildDir(obj[key],parent+key+'/');
+    if (typeof folder[key] == "object") {
+      buildDir(folder[key],parentFolder+key+'/');
     }
   }
 }
 
 function buildShots(root,numShots) {
-  console.log('root:');
-  console.log(root);
-
   const shotPath = root + '3d/shots/';
 
   console.log(shotPath);
@@ -46,19 +52,31 @@ function buildShots(root,numShots) {
   }
 }
 
-
 Meteor.methods({
-  createJob(job,numShots) {
+  createJob(job,numShots,db) {
     let name = job.client + '_' + job.name;
     let root = path.join(site.root, site.projects, job.client, name) + '/';
 
-    job._id = new Mongo.ObjectID();
+    if (db) {
+      job._id = new Mongo.ObjectID();
+      Jobs.insert(job);
+    }
 
-    Jobs.insert(job);
-    
     buildDir(jobStructure, root);
     
     buildShots(root,numShots);
+  },
+
+  createAsset(jobName, jobClient, assetName) {
+    let jobFolder = jobClient + '_' + jobName;
+    let path = site.root + '/' + site.projects + '/' + jobClient + '/' + jobFolder + '/3d/assets/' + assetName;
+    //let path = path.join(site.root, site.projects, jobClient, jobFolder) + '/3d/assets/' + assetName;
+
+    //console.log('asset path');
+    //console.log(path);
+
+    createFolder(path);
+    buildDir(shotStructure, path+'/');
   }
 });
 

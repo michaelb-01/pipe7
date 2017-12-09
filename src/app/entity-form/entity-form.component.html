@@ -1,0 +1,26 @@
+<form class="form-container" (ngSubmit)="onSubmit(jobForm)" #jobForm="ngForm">
+  <div class="form-wrapper">
+
+    <h1 class='form-title'>Edit Entity</h1>
+
+    <mat-form-field>
+      <input matInput placeholder="Name" [(ngModel)]="entity.name" name="name">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select placeholder="Status" [(ngModel)]="entity.status" name="status">
+        <mat-option value="notStarted">Not Started</mat-option>
+        <mat-option value="active">Active</mat-option>
+        <mat-option value="pendingFeedback">Pending Feedback</mat-option>
+        <mat-option value="complete">Complete</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class='submitButtonWrapper'>
+      <button mat-raised-button [disabled]="!jobForm.form.valid" color="primary" type="submit" class="submitButton">
+        Create Job
+      </button>
+    </div>
+
+  </div>
+</form>

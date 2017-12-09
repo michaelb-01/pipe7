@@ -21,6 +21,7 @@ export interface IJob {
     height?: number;
     lengths?: string[];
   };
+  dueDate: Date;
   path?: string;
   public?: boolean;
 }
@@ -43,6 +44,7 @@ export class Job implements IJob {
       height: 0,
     }
   };
+  dueDate:Date = new Date();
   output:any = {
     fps: 25,
     width: 1920,

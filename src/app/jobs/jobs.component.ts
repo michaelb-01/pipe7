@@ -19,11 +19,15 @@ export class JobsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    //this.jobs = Jobs.find();
 
-    this.jobs = Jobs.find();
     MeteorObservable.subscribe('jobs').subscribe(() => {
       MeteorObservable.autorun().subscribe(() => {
         this.jobs = Jobs.find();
+
+        this.jobs.forEach(job=>{
+          console.log(job._id);
+        })
       });
     });
   }

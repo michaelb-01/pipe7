@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-// import { Chats } from '../../api/server/collections';
-// import { Chat } from '../../api/server/models';
+import { Component, OnInit, ViewChild } from '@angular/core';
+
+import { SidenavService }     from './sidenav.service';
 
 @Component({
   selector: 'app-root',
@@ -8,14 +8,22 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  @ViewChild('sidenavRight') public sidenav: MatSidenav;
+
   title = 'app';
   // chats: Chat[];
 
-  constructor() {}
+  constructor(private sidenavService: SidenavService) {}
 
   ngOnInit() {
     // Chats.find({}).subscribe((chats: Chat[]) => {
     //   this.chats = chats;
     // });
+
+    this.sidenavService.setSidenav(this.sidenav);
+  }
+
+  sidenavRightToggle() {
+    this.sidenavService.toggleSidenavRight();
   }
 }

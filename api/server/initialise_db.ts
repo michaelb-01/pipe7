@@ -8,6 +8,8 @@ import { Users } from './collections/users';
 
 import { Accounts } from 'meteor/accounts-base';
 
+import { MeteorObservable } from 'meteor-rxjs';
+
 declare var Fake: any;
 
 const users = ['Mike Battcock', 'Mike Skrgatic', 'James Allen', 'Ben Cantor', 'Sam Osbourne'];
@@ -32,7 +34,9 @@ export function createUsers() {
   }
 }
 
-function createEntity(jobId, jobName) {
+function createEntity(jobId, jobName, jobClient, type) {
+  console.log('running createEntity');
+
   var assets = '/Users/michaelbattcock/Documents/dev/apps/pipe4/src/assets/';
 
   var taskTypes = ['fx','model','light','comp','texture','track'];
@@ -60,6 +64,8 @@ function createEntity(jobId, jobName) {
 
   var name = Fake.sentence(1);
 
+  console.log('Adding ' + name + ' to ' + jobName);
+
   let thumb = thumbs[Math.floor((Math.random() * thumbs.length))];
 
   var entity = {
@@ -69,7 +75,7 @@ function createEntity(jobId, jobName) {
       'jobName': jobName
     },
     'name': name,
-    'type': types[Math.floor((Math.random() * types.length))],
+    'type': type,
     'tasks': tasks,
     'status': statusTypes[Math.floor((Math.random() * statusTypes.length))],
     'todos':[],
@@ -97,6 +103,16 @@ function createEntity(jobId, jobName) {
     'public': true
   };
 
+  // create asset on disk
+  MeteorObservable.call('createAsset', jobName, jobClient, name).subscribe({
+    error: (e: Error) => {
+      if (e) {
+        console.log(e);
+      }
+    }
+  });
+
+
   //Activity.insert(action);
 
   // random integer between 1 and 10
@@ -110,10 +126,12 @@ function createEntity(jobId, jobName) {
 
 export function createJobs() {
   // check if jobs are already in the database
-  if (Jobs.collection.find().count() > 0) {
+  if (Jobs.find({}).cursor.count() > 0) {
     console.log('found jobs already in database');
     return;
   }
+
+  console.log('running createJobs');
 
   const jobs: Job[] = [];
 
@@ -139,7 +157,10 @@ export function createJobs() {
   jobs.push(job2);
 
   let jobId = '';
-  let numEntities = 4;
+
+  let numShots = 10;
+  let numAssets = 5;
+
 
   // iterate over jobs array and insert the jobs
   for (var i = 0; i < jobs.length; i++) {
@@ -149,12 +170,27 @@ export function createJobs() {
 
     this.jobId = Jobs.insert(jobs[i]);
 
-    // random integer between 10 and 20
-    numEntities = Math.floor((Math.random() * 10) + 10);
+    console.log('Adding ' + jobs[i].name);
 
-    // create entities in job
-    for (var j = 0; j < numEntities; j++) {
-      createEntity(objectId.valueOf(), jobs[i].name);
+    // random integer between 10 and 20
+    //numEntities = Math.floor((Math.random() * 10) + 10);
+
+
+    // create job on disk
+    MeteorObservable.call('createJob', jobs[i], numShots, false).subscribe({
+      error: (e: Error) => {
+        if (e) {
+          console.log(e);
+        }
+      }
+    });
+
+    // create assets in job
+    for (var j = 0; j < numAssets; j++) {
+      createEntity(objectId.valueOf(), jobs[i].name, jobs[i].client, 'asset');
+    }
+    for (var j = 0; j < numShots; j++) {
+      createEntity(objectId.valueOf(), jobs[i].name, jobs[i].client, 'shot');
     }
   }
 }

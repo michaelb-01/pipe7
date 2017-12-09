@@ -47,10 +47,7 @@ export class JobFormComponent implements OnInit {
   }
 
   onSubmit(name) {
-    console.log('create job');
-    console.log(this.job);
-
-    MeteorObservable.call('createJob', this.job, this.numShots).subscribe({
+    MeteorObservable.call('createJob', this.job, this.numShots, true).subscribe({
       error: (e: Error) => {
         if (e) {
           console.log(e);
