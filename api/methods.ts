@@ -3,6 +3,7 @@ import { site, jobStructure, shotStructure } from "./settings";
 import * as mkdirp from 'mkdirp';
 //import * as path from 'path';
 const path = require('path');
+var cp = require("child_process");
 
 import { Jobs } from "./server/collections/jobs";
 
@@ -11,7 +12,6 @@ function camelize(str) {
     return index == 0 ? letter.toLowerCase() : letter.toUpperCase();
   }).replace(/\s+/g, '');
 }
-
 
 function createFolder(path) {
   mkdirp(path, function (err) {
@@ -80,7 +80,14 @@ Meteor.methods({
 
     createFolder(path);
     buildDir(shotStructure, path+'/');
+  },
+
+  openMaya() {
+    console.log('open maya');
+    //cp.exec("open -a /Applications/Autodesk/maya2017/Maya.app"); // notice this without a callback..
+    cp.exec('open -n "/Applications/Houdini/Houdini16.5.268/Houdini FX 16.5.268.app"');
   }
+
 });
 
 function pad(num, size) {

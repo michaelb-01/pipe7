@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MeteorObservable } from 'meteor-rxjs';
 
 import { SidenavService }     from './sidenav.service';
 
@@ -25,5 +26,17 @@ export class AppComponent implements OnInit {
 
   sidenavRightToggle() {
     this.sidenavService.toggleSidenavRight();
+  }
+
+  openMaya() {
+    console.log('calling open maya');
+    
+    MeteorObservable.call('openMaya').subscribe({
+      error: (e: Error) => {
+        if (e) {
+          console.log(e);
+        }
+      }
+    });
   }
 }
