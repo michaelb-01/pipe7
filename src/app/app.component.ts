@@ -8,7 +8,7 @@ import { SidenavService }     from './sidenav.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  @ViewChild('sidenavRight') public sidenav: MatSidenav;
+  @ViewChild('sidenavRight') sidenavRight;
 
   title = 'app';
   // chats: Chat[];
@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
     //   this.chats = chats;
     // });
 
-    this.sidenavService.setSidenav(this.sidenav);
+    this.sidenavService.setSidenav(this.sidenavRight);
   }
 
   sidenavRightToggle() {

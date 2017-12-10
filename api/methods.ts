@@ -1,5 +1,6 @@
 import { site, jobStructure, shotStructure } from "./settings";
-import mkdirp = require('mkdirp');
+//import mkdirp = require('mkdirp');
+import * as mkdirp from 'mkdirp';
 import * as path from 'path';
 
 import { Jobs } from "./server/collections/jobs";
@@ -9,6 +10,7 @@ function camelize(str) {
     return index == 0 ? letter.toLowerCase() : letter.toUpperCase();
   }).replace(/\s+/g, '');
 }
+
 
 function createFolder(path) {
   mkdirp(path, function (err) {

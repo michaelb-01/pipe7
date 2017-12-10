@@ -26,6 +26,8 @@ export class TaskFormComponent implements OnInit {
     users: []
   }
 
+  formTitle;
+
   userCtrl = new FormControl();
   taskCtrl = new FormControl();
   dateCtrl = new FormControl();
@@ -95,6 +97,8 @@ export class TaskFormComponent implements OnInit {
       }
       this.selectedUsers.push(newUser);
     })
+
+    this.formTitle = 'ASSIGN ARTISTS';
 
     //this.selectedUsers = this.task.users;
   }

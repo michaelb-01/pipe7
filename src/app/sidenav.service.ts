@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatSidenav, MatSidenavToggleResult } from '@angular/material';
+import { MatSidenav } from '@angular/material';
 
 @Injectable()
 export class SidenavService {

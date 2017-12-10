@@ -26,6 +26,8 @@ export class EntitiesComponent implements OnInit {
 
   usersSub: Subscription;
 
+  entities;
+
   assets;
   shots;
 

@@ -18,8 +18,8 @@ export interface IEntity {
 export class Entity implements IEntity {
   _id?: Mongo.ObjectID;
   job: {
-    jobId: string = '',
-    jobName: string = ''
+    jobId: '',
+    jobName: ''
   };
   name: string = '';
   type: string = '';
