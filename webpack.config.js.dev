@@ -62,7 +62,7 @@ const postcssPlugins = function () {
     };
 
 module.exports = {
-  target:'electron-renderer',
+  //"target":"electron-renderer",
   "resolve": {
     "extensions": [
       ".ts",
