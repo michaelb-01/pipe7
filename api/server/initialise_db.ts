@@ -6,11 +6,13 @@ import { Entity } from "./models/entity";
 
 import { Users } from './collections/users';
 
-import { Accounts } from 'meteor/accounts-base';
+//import { Accounts } from 'meteor/accounts-base';
 
 import { MeteorObservable } from 'meteor-rxjs';
 
+
 declare var Fake: any;
+declare var Accounts: any;
 
 const users = ['Mike Battcock', 'Mike Skrgatic', 'James Allen', 'Ben Cantor', 'Sam Osbourne'];
 const types = ['asset','shot'];

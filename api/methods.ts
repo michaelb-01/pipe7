@@ -1,7 +1,8 @@
 import { site, jobStructure, shotStructure } from "./settings";
 //import mkdirp = require('mkdirp');
 import * as mkdirp from 'mkdirp';
-import * as path from 'path';
+//import * as path from 'path';
+const path = require('path');
 
 import { Jobs } from "./server/collections/jobs";
 
