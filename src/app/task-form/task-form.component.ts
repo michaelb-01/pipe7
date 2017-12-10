@@ -84,10 +84,10 @@ export class TaskFormComponent implements OnInit {
   }
 
   selectTask(entity,task) {
-    console.log(entity);
-    console.log(task);
     this.entity = entity;
     this.task = task;
+
+    this.selectedUsers = [];
 
     this.task.users.forEach(user=>{
       let newUser = {
@@ -98,7 +98,7 @@ export class TaskFormComponent implements OnInit {
       this.selectedUsers.push(newUser);
     })
 
-    this.formTitle = 'ASSIGN ARTISTS';
+    this.formTitle = 'Assign Artists';
 
     //this.selectedUsers = this.task.users;
   }
@@ -149,7 +149,7 @@ export class TaskFormComponent implements OnInit {
   }
 
   addTask(entity) {
-    this.formTitle = 'ADD TASK';
+    this.formTitle = 'Create Task';
     this.entity = entity;
 
     // filter tasks based on pre-existing tasks on entity
