@@ -9,6 +9,13 @@ import { Entity } from '../../../api/server/models/entity';
 export class EntityFormComponent implements OnInit {
   entity = new Entity();
 
+  statuses = [
+    {value: 'notStarted', viewValue: 'Not Started'},
+    {value: 'active', viewValue: 'Active'},
+    {value: 'pendingFeedback', viewValue: 'Pending Feedback'},
+    {value: 'complete', viewValue: 'Complete'},
+  ]
+
   constructor() { }
 
   ngOnInit() {

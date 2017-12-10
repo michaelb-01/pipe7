@@ -1,7 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MeteorObservable } from 'meteor-rxjs';
 
+import { Router, NavigationEnd } from '@angular/router';
+
 import { SidenavService }     from './sidenav.service';
+
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/filter';
 
 @Component({
   selector: 'app-root',
@@ -11,16 +16,25 @@ import { SidenavService }     from './sidenav.service';
 export class AppComponent implements OnInit {
   @ViewChild('sidenavRight') sidenavRight;
 
-  title = 'app';
-  // chats: Chat[];
+  public location = '';
 
-  constructor(private sidenavService: SidenavService) {}
+  showEntityForm = false;
+
+
+  constructor(private sidenavService: SidenavService,
+              private router: Router) {
+    this.router.events.filter((event) => event instanceof NavigationEnd)
+                      .subscribe(val=>{
+                        if (val.url.indexOf('/job/') > -1 || val.url.indexOf('/entity/') > -1) {
+                          this.showEntityForm = true;
+                        }
+                        else {
+                          this.showEntityForm = false;
+                        }
+                      })
+  }
 
   ngOnInit() {
-    // Chats.find({}).subscribe((chats: Chat[]) => {
-    //   this.chats = chats;
-    // });
-
     this.sidenavService.setSidenav(this.sidenavRight);
   }
 
@@ -30,7 +44,7 @@ export class AppComponent implements OnInit {
 
   openMaya() {
     console.log('calling open maya');
-    
+
     MeteorObservable.call('openMaya').subscribe({
       error: (e: Error) => {
         if (e) {

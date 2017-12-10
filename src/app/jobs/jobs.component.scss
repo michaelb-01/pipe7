@@ -1,6 +1,7 @@
 .jobs-container {
   display: flex;
   justify-content: center;
+  margin: 2em 0;
 }
 
 .job {
@@ -55,4 +56,18 @@ md-grid-tile {
   &:hover {
     background-color: rgba(0,0,0,0);  // 0% opacity black
   }
+}
+
+@media only screen and (max-width: 767px) {
+    .job {
+      width: 31.3333%;
+      padding-bottom: 17.625%;
+    }
+}
+
+@media only screen and (max-width: 319px) {
+    .job {
+      width: 48%;
+      padding-bottom: 27%;
+    }
 }

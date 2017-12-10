@@ -4,6 +4,11 @@ import { Job } from "./models/job";
 import { Entities } from './collections/entities';
 import { Entity } from "./models/entity";
 
+import { Versions } from './collections/versions';
+import { Version } from "./models/version";
+
+import { Annotation } from "./models/annotation";
+
 import { Users } from './collections/users';
 
 //import { Accounts } from 'meteor/accounts-base';
@@ -17,6 +22,8 @@ declare var Accounts: any;
 const users = ['Mike Battcock', 'Mike Skrgatic', 'James Allen', 'Ben Cantor', 'Sam Osbourne'];
 const types = ['asset','shot'];
 const thumbs = ['audi','audi_breakdown','bmw','dust_01','flip','frames','kittiwakes','liquid','nike','test','vw'];
+const images = ['bmw','clothes','interior','wallSmash','warAndPeace','willYoung'];
+const videos = ['/video/dust_01.mov','/video/test.mov'];
 
 export function createUsers() {
   if (Users.collection.find().count() === 0) {
@@ -34,6 +41,85 @@ export function createUsers() {
       console.log('Added ' + users[i] + ' as a User');
     }
   }
+}
+
+function createVersion(jobId, jobName, entityId, entityName) {
+  var maxNotes = 0;
+
+  var notes = [];
+  for (var i=0;i<Math.floor(Math.random() * maxNotes);i++) {
+    let note = new Annotation();
+
+    note.author = 'Mike Battcock';
+    note.text = Fake.sentence(Math.floor(Math.random() * 8));
+
+    notes.push(note);
+  }
+
+  var contentType = 'still';
+  var content = '/img/' + images[Math.floor((Math.random() * images.length))] + '.jpg';
+
+  // make half videos
+  if (Math.random() > 0.5) {
+    contentType = 'video';
+    content = videos[Math.floor((Math.random() * videos.length))];
+  }
+
+  var taskTypes = ['fx','model','light','comp','texture','track'];
+  var taskType = taskTypes[Math.floor((Math.random() * taskTypes.length))];
+
+  var idx = Versions.find( { $and: [{'entity.entityId':entityId}, {'taskType.type':taskType}] } ).cursor.count();
+
+  console.log('found ' + idx + ' versions with type: ' + taskType);
+
+  var versionId = new Mongo.ObjectID();
+
+  console.log('version task: ' + versionId);
+
+  var versionNum = Math.floor((Math.random() * 100) + 1)
+
+  var version = {
+    'job': {
+      'jobId': jobId,
+      'jobName': jobName
+    },
+    'entity': {
+      'entityId': entityId,
+      'entityName': entityName
+    },
+    'author': 'Mike Battcock',
+    'version': versionNum,
+    'comments': notes,
+    'review': [],
+    'contentType': contentType,
+    'taskType': {
+      'type': taskType,
+      'idx': idx
+    },
+    'content': content,
+    'thumbUrl': '/img/' + thumbs[Math.floor((Math.random() * thumbs.length))] + '_sprites.jpg',
+    'description': Fake.sentence(7),
+    'date': new Date(),
+    'public': true
+  }
+
+  Versions.insert(version);
+
+  var action = {
+    'author':{
+      'id':'',
+      'name':'Mike Battcock'
+    },
+    'meta':{
+      'name':versionNum.toString(),
+      'type':'version',
+      'jobId':jobId
+    },
+    'date': new Date,
+    'public': true
+  };
+
+  //Activity.insert(action);
 }
 
 function createEntity(jobId, jobName, jobClient, type) {
@@ -122,7 +208,7 @@ function createEntity(jobId, jobName, jobClient, type) {
 
   // create entities in job
   for (var i = 0; i < numVersions; i++) {
-    //createVersion(jobId, jobName, entityId.valueOf(), entity.name);
+    createVersion(jobId, jobName, entityId.valueOf(), entity.name);
   }
 } 
 

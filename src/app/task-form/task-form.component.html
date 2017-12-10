@@ -6,14 +6,14 @@
 
     <mat-form-field>
       <mat-select placeholder="Type" [(ngModel)]="task.type" name="type" required=True>
-        <mat-option *ngFor="let task of tasks" [value]="task">
-          {{ task }}
+        <mat-option *ngFor="let task of tasks" [value]="task.value">
+          {{ task.viewValue }}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field>
-      <mat-select placeholder="Status" class="fullWidth" [(ngModel)]='currentStatus' name="status">
+      <mat-select placeholder="Status" class="fullWidth" [(ngModel)]='task.status' name="status">
         <mat-option *ngFor="let status of statuses" [value]="status.value">
           {{ status.viewValue }}
         </mat-option>

@@ -15,16 +15,18 @@ export interface IEntity {
   public: boolean;
 }
 
+class job {
+  jobId: string = '';
+  jobName: string = '';
+}
+
 export class Entity implements IEntity {
   _id?: Mongo.ObjectID;
-  job: {
-    jobId: '',
-    jobName: ''
-  };
+  job: job = new job();
   name: string = '';
   type: string = '';
   tasks: any[] = [];
-  status: string = '';
+  status: string = 'notStarted';
   thumbUrl?: string = '';
   description?: string = '';
   todos?: any[] = [];  

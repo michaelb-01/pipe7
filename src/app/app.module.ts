@@ -36,11 +36,15 @@ import { FirstLetterPipe } from './pipes/first-letter.pipe';
 import { SidenavService } from './sidenav.service';
 import { EntityFormComponent } from './entity-form/entity-form.component';
 import { TaskFormComponent } from './task-form/task-form.component';
+import { VersionsComponent } from './versions/versions.component';
+import { EntityComponent } from './entity/entity.component';
+import { FileUploadComponent } from './file-upload/file-upload.component';
 
 
 const appRoutes: Routes = [
   { path: 'jobs', component: JobsComponent },
   { path: 'job/:jobId', component: JobComponent },
+  { path: 'entity/:entityId', component: EntityComponent },
   { path: '',
     redirectTo: '/jobs',
     pathMatch: 'full'
@@ -58,7 +62,10 @@ const appRoutes: Routes = [
     EntitiesComponent,
     FirstLetterPipe,
     EntityFormComponent,
-    TaskFormComponent
+    TaskFormComponent,
+    VersionsComponent,
+    EntityComponent,
+    FileUploadComponent
   ],
   imports: [
     BrowserModule,

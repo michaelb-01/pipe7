@@ -40,16 +40,16 @@ export class TaskFormComponent implements OnInit {
   editing = false;
 
   tasks = [
-    'Model',
-    'Texture',
-    'Rig',
-    'Anim',
-    'FX',
-    'Look Dev',
-    'Light',
-    'Roto',
-    'Pre Comp',
-    'Comp'
+    {value:'model',viewValue:'Model'},
+    {value:'texture',viewValue:'Texture'},
+    {value:'rig',viewValue:'Rig'},
+    {value:'anim',viewValue:'Animation'},
+    {value:'fx',viewValue:'FX'},
+    {value:'lookDev',viewValue:'Look Development'},
+    {value:'light',viewValue:'Light'},
+    {value:'roto',viewValue:'Roto'},
+    {value:'preComp',viewValue:'Pre Comp'},
+    {value:'comp',viewValue:'Comp'}
   ];
 
   filteredTasks = [];
@@ -86,6 +86,8 @@ export class TaskFormComponent implements OnInit {
   selectTask(entity,task) {
     this.entity = entity;
     this.task = task;
+
+    console.log(task);
 
     this.selectedUsers = [];
 
@@ -155,7 +157,7 @@ export class TaskFormComponent implements OnInit {
     // filter tasks based on pre-existing tasks on entity
     this.filteredTasks = this.tasks.filter(task=>{
       return entity.tasks.filter(entityTask=>{
-        return entityTask.type.toLowerCase() == task.toLowerCase();
+        return entityTask.type.toLowerCase() == task.value.toLowerCase();
       }).length == 0;
     })
 

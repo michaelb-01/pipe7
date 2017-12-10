@@ -17,7 +17,7 @@
       </li>
     </ul>
 
-    <button (click)="openMaya()">Open Maya</button>
+    {{location}}
 
     <!-- RIGHT -->
     <button mat-mini-fab color="primary" id="create-button" (click)="sidenavRight.toggle()">
@@ -32,7 +32,8 @@
     </mat-sidenav>
 
     <mat-sidenav #sidenavRight class="sidenav2" align="end">
-      <app-job-form></app-job-form>
+      <app-entity-form *ngIf="showEntityForm"></app-entity-form>
+      <app-job-form *ngIf="!showEntityForm"></app-job-form>
     </mat-sidenav>
 
     <router-outlet></router-outlet>
