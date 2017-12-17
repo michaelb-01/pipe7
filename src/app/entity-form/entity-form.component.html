@@ -2,11 +2,12 @@
   <div class="form-wrapper">
 
     <h1 class='form-title'>Create Entity</h1>
+    <h2 class='form-title'>{{entity.job.jobName}}</h2>
 
-    <mat-form-field class="example-full-width">
+<!--     <mat-form-field class="example-full-width">
       <input matInput [(ngModel)]="entity.job.jobName" name="jobName" disabled>
     </mat-form-field>
-
+ -->
     <mat-form-field>
       <mat-select placeholder="Type" [(ngModel)]="entity.type" name="type" required>
         <mat-option value="asset">Asset</mat-option>

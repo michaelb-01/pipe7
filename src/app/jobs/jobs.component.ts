@@ -5,6 +5,8 @@ import { MeteorObservable } from 'meteor-rxjs';
 
 import { Jobs } from '../../../api/server/collections/jobs';
 
+import { SidenavService } from '../sidenav.service';
+
 @Component({
   selector: 'app-jobs',
   templateUrl: './jobs.component.html',
@@ -12,11 +14,17 @@ import { Jobs } from '../../../api/server/collections/jobs';
 })
 export class JobsComponent implements OnInit {
   @ViewChild('thumbnail') thumbnail:any;
+  @ViewChild('sidenavRight') public sidenavRight;
 
   jobs;
   seekPos = -1;
 
-  constructor() { }
+  constructor(private sidenavService: SidenavService) {
+    sidenavService.sidenavTriggered.subscribe(
+      val => {
+        this.openSidenav();
+      });
+  }
 
   ngOnInit() {
     //this.jobs = Jobs.find();
@@ -41,5 +49,9 @@ export class JobsComponent implements OnInit {
 
   test(id) {
     console.log(id);
+  }
+
+  openSidenav() {
+    this.sidenavRight.open();
   }
 }

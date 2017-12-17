@@ -5,6 +5,7 @@ import { FormControl } from '@angular/forms';
 import { Job } from '../../../api/server/models/job';
 
 import { cameras } from '../../../api/cameras';
+import { site, jobStructure, shotStructure } from "../../../api/settings";
 
 @Component({
   selector: 'app-job-form',
@@ -47,7 +48,13 @@ export class JobFormComponent implements OnInit {
   }
 
   onSubmit(name) {
-    MeteorObservable.call('createJob', this.job, this.numShots, true).subscribe({
+    // create path on disk
+    this.job.path = site.root +
+                   site.projects + 
+                   this.job.client + '/' +
+                   this.job.client + '_' + this.job.name + '/';
+
+    MeteorObservable.call('createJob', this.job, this.numShots).subscribe({
       error: (e: Error) => {
         if (e) {
           console.log(e);
@@ -55,6 +62,7 @@ export class JobFormComponent implements OnInit {
       }
     });
   }
+  
 
   onChange(e) {
     console.log(e);

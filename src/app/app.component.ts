@@ -19,17 +19,17 @@ export class AppComponent implements OnInit {
   public location = '';
 
   showEntityForm = false;
-
+  tooltip = 'Create Job';
 
   constructor(private sidenavService: SidenavService,
               private router: Router) {
     this.router.events.filter((event) => event instanceof NavigationEnd)
                       .subscribe(val=>{
                         if (val.url.indexOf('/job/') > -1 || val.url.indexOf('/entity/') > -1) {
-                          this.showEntityForm = true;
+                          this.tooltip = 'Create Entity';
                         }
                         else {
-                          this.showEntityForm = false;
+                          this.tooltip = 'Create Job';
                         }
                       })
   }
@@ -40,6 +40,10 @@ export class AppComponent implements OnInit {
 
   sidenavRightToggle() {
     this.sidenavService.toggleSidenavRight();
+  }
+
+  clickCreate() {
+    console.log(this.router.url);
   }
 
   openMaya() {

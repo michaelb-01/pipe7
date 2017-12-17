@@ -6,7 +6,7 @@ export interface IEntity {
   };
   name: string;
   type: string;
-  tasks: any[];
+  tasks?: any[];
   status: string;
   thumbUrl?: string;
   description?: string;
@@ -25,7 +25,7 @@ export class Entity implements IEntity {
   job: job = new job();
   name: string = '';
   type: string = '';
-  tasks: any[] = [];
+  tasks?: any[] = [];
   status: string = 'notStarted';
   thumbUrl?: string = '';
   description?: string = '';

@@ -39,6 +39,8 @@ import { TaskFormComponent } from './task-form/task-form.component';
 import { VersionsComponent } from './versions/versions.component';
 import { EntityComponent } from './entity/entity.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
+import { VersionItemComponent } from './version-item/version-item.component';
+import { TypeFilterPipe } from './pipes/type-filter.pipe';
 
 
 const appRoutes: Routes = [
@@ -65,7 +67,9 @@ const appRoutes: Routes = [
     TaskFormComponent,
     VersionsComponent,
     EntityComponent,
-    FileUploadComponent
+    FileUploadComponent,
+    VersionItemComponent,
+    TypeFilterPipe
   ],
   imports: [
     BrowserModule,

@@ -17,13 +17,11 @@
       </li>
     </ul>
 
-    {{location}}
-
     <!-- RIGHT -->
-    <button mat-mini-fab color="primary" id="create-button" (click)="sidenavRight.toggle()">
-      <!-- <mat-icon class="mat-24" aria-label="Example icon-button with a heart icon">create</mat-icon> -->
-      <i class="material-icons">create</i>
-    </button>
+    <div mat-mini-fab color="primary" id="create-button" matTooltip={{tooltip}} [matTooltipPosition]="'left'" (click)="sidenavRightToggle()">
+      <!-- <i class="material-icons">create</i> -->
+
+    </div>
   </div>
 
   <mat-sidenav-container class="container">
@@ -31,10 +29,10 @@
       Jolly good!
     </mat-sidenav>
 
-    <mat-sidenav #sidenavRight class="sidenav2" align="end">
+<!--     <mat-sidenav #sidenavRight class="sidenav2" align="end">
       <app-entity-form *ngIf="showEntityForm"></app-entity-form>
       <app-job-form *ngIf="!showEntityForm"></app-job-form>
-    </mat-sidenav>
+    </mat-sidenav> -->
 
     <router-outlet></router-outlet>
   </mat-sidenav-container>

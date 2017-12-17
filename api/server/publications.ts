@@ -6,6 +6,9 @@ import { Entities } from './collections/entities';
 
 import { User } from './models/user';
 import { Users } from './collections/users';
+
+import { Version } from './models/version';
+import { Versions } from './collections/versions';
  
 Meteor.publish('jobs', function(): Mongo.Cursor<Job> { 
   return Jobs.collection.find({}, {
@@ -21,6 +24,12 @@ Meteor.publish('entities', function(): Mongo.Cursor<Entity> {
 
 Meteor.publish('users', function(): Mongo.Cursor<User> { 
   return Users.collection.find({}, {
+
+  });
+});
+
+Meteor.publish('versions', function(): Mongo.Cursor<Version> { 
+  return Versions.collection.find({}, {
 
   });
 });

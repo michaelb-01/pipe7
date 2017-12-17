@@ -13,8 +13,10 @@ import { Users } from './collections/users';
 
 //import { Accounts } from 'meteor/accounts-base';
 
+import { Mongo } from 'meteor/mongo';
 import { MeteorObservable } from 'meteor-rxjs';
 
+import { site, jobStructure, shotStructure } from "../settings";
 
 declare var Fake: any;
 declare var Accounts: any;
@@ -24,6 +26,11 @@ const types = ['asset','shot'];
 const thumbs = ['audi','audi_breakdown','bmw','dust_01','flip','frames','kittiwakes','liquid','nike','test','vw'];
 const images = ['bmw','clothes','interior','wallSmash','warAndPeace','willYoung'];
 const videos = ['/video/dust_01.mov','/video/test.mov'];
+
+function pad(num, size) {
+  let s = "000000000" + num;
+  return s.substr(s.length-size);
+}
 
 export function createUsers() {
   if (Users.collection.find().count() === 0) {
@@ -122,7 +129,7 @@ function createVersion(jobId, jobName, entityId, entityName) {
   //Activity.insert(action);
 }
 
-function createEntity(jobId, jobName, jobClient, type) {
+function createEntity(job, name, type) {
   console.log('running createEntity');
 
   var assets = '/Users/michaelbattcock/Documents/dev/apps/pipe4/src/assets/';
@@ -148,19 +155,23 @@ function createEntity(jobId, jobName, jobClient, type) {
     });
   }
 
+
   var entityId = new Mongo.ObjectID();
 
-  var name = Fake.sentence(1);
-
-  console.log('Adding ' + name + ' to ' + jobName);
+  console.log('Adding ' + name + ' to ' + job.name);
 
   let thumb = thumbs[Math.floor((Math.random() * thumbs.length))];
 
-  var entity = {
+  let path = job.path + '3d/';
+
+  path += type == 'asset' ? 'assets/' : 'shots/';
+  path += name + '/';
+
+  let entity = {
     '_id': entityId,
     'job': {
-      'jobId': jobId,
-      'jobName': jobName
+      'jobId': job._id._str,
+      'jobName': job.name
     },
     'name': name,
     'type': type,
@@ -170,12 +181,13 @@ function createEntity(jobId, jobName, jobClient, type) {
     'thumbUrl': '../assets/img/' + thumb + '_sprites.jpg',
     'media': '../assets/video/' + thumb + '.mov',
     'description': Fake.sentence(7),
+    'path': path,
     'public': true
   }
 
-  console.log('create ' + entity.type + ' entity in ' + jobName);
+  console.log('create ' + entity.type + ' entity in ' + job.name);
 
-  Entities.insert(entity);
+  //Entities.insert(entity);
 
   var action = {
     'author':{
@@ -185,21 +197,20 @@ function createEntity(jobId, jobName, jobClient, type) {
     'meta':{
       'name':name,
       'type':'entity',
-      'jobId':jobId
+      'jobId':job._id._str
     },
     'date': new Date,
     'public': true
   };
 
   // create asset on disk
-  MeteorObservable.call('createAsset', jobName, jobClient, name).subscribe({
+  MeteorObservable.call('createEntity', entity).subscribe({
     error: (e: Error) => {
       if (e) {
         console.log(e);
       }
     }
   });
-
 
   //Activity.insert(action);
 
@@ -208,7 +219,7 @@ function createEntity(jobId, jobName, jobClient, type) {
 
   // create entities in job
   for (var i = 0; i < numVersions; i++) {
-    createVersion(jobId, jobName, entityId.valueOf(), entity.name);
+    createVersion(job._id._str, job.name, entityId.valueOf(), entity.name);
   }
 } 
 
@@ -249,36 +260,51 @@ export function createJobs() {
   let numShots = 10;
   let numAssets = 5;
 
-
   // iterate over jobs array and insert the jobs
   for (var i = 0; i < jobs.length; i++) {
     let objectId = new Mongo.ObjectID();
 
     jobs[i]._id = objectId; // remove valueOf() for mongo style id generation
 
+    // create path on disk
+    jobs[i].path = site.root +
+                   site.projects + 
+                   jobs[i].client + '/' +
+                   jobs[i].client + '_' + jobs[i].name + '/';
+
+    /////// CREATE JOB IN DATABASE ///////
     this.jobId = Jobs.insert(jobs[i]);
+
+    ///////// CREATE JOB ON DISK /////////
+    Meteor.call('createJob', jobs[i], 0, function(error, result) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('RETURNED A JOB RESULT!' + result);
+      }
+    },
+
+    // MeteorObservable.call('createJob', jobs[i], 0).subscribe({
+    //   error: (e: Error) => {
+    //     if (e) {
+    //       console.log(e);
+    //     }
+    //     else {
+    //       console.log('RETURNED A JOB RESULT!' + e);
+    //     }
+    //   }
+    // });
 
     console.log('Adding ' + jobs[i].name);
 
-    // random integer between 10 and 20
-    //numEntities = Math.floor((Math.random() * 10) + 10);
-
-
-    // create job on disk
-    MeteorObservable.call('createJob', jobs[i], numShots, false).subscribe({
-      error: (e: Error) => {
-        if (e) {
-          console.log(e);
-        }
-      }
-    });
-
     // create assets in job
     for (var j = 0; j < numAssets; j++) {
-      createEntity(objectId.valueOf(), jobs[i].name, jobs[i].client, 'asset');
+      let name = Fake.word();
+      createEntity(jobs[i], name, 'asset');
     }
     for (var j = 0; j < numShots; j++) {
-      createEntity(objectId.valueOf(), jobs[i].name, jobs[i].client, 'shot');
+      let name = 'sh' + pad(j+1,3) + '0';
+      createEntity(jobs[i], name, 'shot');
     }
   }
 }
