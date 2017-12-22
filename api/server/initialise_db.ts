@@ -104,7 +104,7 @@ function createVersion(jobId, jobName, entityId, entityName) {
       'idx': idx
     },
     'content': content,
-    'thumbUrl': '/img/' + thumbs[Math.floor((Math.random() * thumbs.length))] + '_sprites.jpg',
+    'thumbUrl': '../assets/img/' + thumbs[Math.floor((Math.random() * thumbs.length))] + '_sprites.jpg',
     'description': Fake.sentence(7),
     'date': new Date(),
     'public': true
@@ -270,7 +270,7 @@ export function createJobs() {
     jobs[i].path = site.root +
                    site.projects + 
                    jobs[i].client + '/' +
-                   jobs[i].client + '_' + jobs[i].name + '/';
+                   jobs[i].name + '/';
 
     /////// CREATE JOB IN DATABASE ///////
     this.jobId = Jobs.insert(jobs[i]);

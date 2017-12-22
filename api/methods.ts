@@ -73,6 +73,7 @@ function createShots(job,numShots) {
   }
 }
 
+
 Meteor.methods({
   // createJob(job,numShots,db) {
   //   let name = job.client + '_' + job.name;

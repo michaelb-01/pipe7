@@ -5,7 +5,14 @@
                               (drop)="onDrop($event)"
                               [ngStyle]="{'border-style':borderStyle}"> -->
   <input type="file" name="file" id="file" class="inputfile" />
-  <label for="file" class="image-uploader">Choose a file</label>
+  <label for="file" class="image-uploader"
+      (dragenter)="onDragEnter($event)"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+      (dragend)="onDragEnd($event)"
+      (drop)="onDrop($event)"
+      [ngStyle]="{'border-style':borderStyle}">
+      Choose a file</label>
 
   <!-- <span>Upload Thumbnail</span> -->
 <!-- </div> -->
