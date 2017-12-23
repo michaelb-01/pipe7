@@ -21,7 +21,8 @@ import { MatButtonModule,
          MatNativeDateModule,
          MatTooltipModule,
          MatExpansionModule,
-         MatAutocompleteModule } from '@angular/material';
+         MatAutocompleteModule,
+         MatSnackBarModule } from '@angular/material';
 
 import 'hammerjs';
 
@@ -41,6 +42,7 @@ import { EntityComponent } from './entity/entity.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { VersionItemComponent } from './version-item/version-item.component';
 import { TypeFilterPipe } from './pipes/type-filter.pipe';
+import { VersionFormComponent } from './version-form/version-form.component';
 
 
 const appRoutes: Routes = [
@@ -69,7 +71,8 @@ const appRoutes: Routes = [
     EntityComponent,
     FileUploadComponent,
     VersionItemComponent,
-    TypeFilterPipe
+    TypeFilterPipe,
+    VersionFormComponent
   ],
   imports: [
     BrowserModule,
@@ -87,6 +90,7 @@ const appRoutes: Routes = [
     MatTooltipModule,
     MatExpansionModule,
     MatAutocompleteModule,
+    MatSnackBarModule,
     RouterModule.forRoot(
       appRoutes
       //{ enableTracing: true } // <-- debugging purposes only

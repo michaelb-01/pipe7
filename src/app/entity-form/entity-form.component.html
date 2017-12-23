@@ -1,8 +1,8 @@
 <form class="form-container" (ngSubmit)="onSubmit(entityForm)" #entityForm="ngForm">
   <div class="form-wrapper">
 
-    <h1 class='form-title'>Create Entity</h1>
-    <h2 class='form-title'>{{entity.job.jobName}}</h2>
+    <h1 class='form-title'>{{method}} Entity</h1>
+    <h2 class='form-title'>- {{entity.job.jobName}} -</h2>
 
 <!--     <mat-form-field class="example-full-width">
       <input matInput [(ngModel)]="entity.job.jobName" name="jobName" disabled>
@@ -15,8 +15,12 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field *ngIf="entity.type=='asset'">
       <input matInput placeholder="Name" [(ngModel)]="entity.name" name="name" required>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="entity.type=='shot'">
+      <input matInput placeholder="Name" type="number" [(ngModel)]="entity.name" name="name2" required>
     </mat-form-field>
 
     <mat-form-field>
@@ -29,9 +33,20 @@
 
     <app-file-upload></app-file-upload>
 
+    <mat-form-field>
+      <textarea matInput placeholder="Description" matTextareaAutosize matAutosizeMinRows="2"
+                matAutosizeMaxRows="5"></textarea>
+    </mat-form-field>
+
     <div class='submitButtonWrapper'>
       <button mat-raised-button [disabled]="!entityForm.form.valid" color="primary" type="submit" class="submitButton">
-        Create Job
+        {{method}} Entity
+      </button>
+    </div>
+
+    <div *ngIf="method=='Edit'" class='submitButtonWrapper'>
+      <button mat-raised-button color="warn" type="button" class="submitButton" (click)="confirmDeleteEntity($event)">
+        Delete Entity
       </button>
     </div>
 

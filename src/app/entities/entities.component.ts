@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
 
@@ -21,6 +21,10 @@ export class EntitiesComponent implements OnInit {
   @ViewChild('sidenavRight') sidenavRight;
   @ViewChild('taskForm') taskForm;
 
+  @Input() job;
+
+  @Output() onSelectEntity = new EventEmitter();
+
   paramsSub: Subscription;
   entitiesSub: Subscription;
 
@@ -34,6 +38,14 @@ export class EntitiesComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private sidenavService: SidenavService) { }
 
+  sortFn(a, b) {
+    if (a.name < b.name)
+      return -1;
+    if (a.name > b.name)
+      return 1;
+    return 0;
+  };
+
   ngOnInit() {
     this.paramsSub = this.route.params
       .map(params => params['jobId'])
@@ -46,9 +58,13 @@ export class EntitiesComponent implements OnInit {
           MeteorObservable.autorun().subscribe(() => {
             this.entities = Entities.find({"job.jobId":jobId});
 
-            this.assets = this.entities.map(entities => entities.filter(entity => entity.type == 'asset'));
-            this.shots = this.entities.map(entities => entities.filter(entity => entity.type == 'shot'));
+            this.assets = this.entities
+                            .map(entities => entities.filter(entity => entity.type == 'asset')
+                            .sort(this.sortFn));
 
+            this.shots = this.entities
+                            .map(entities => entities.filter(entity => entity.type == 'shot')
+                            .sort(this.sortFn));
 
             if (!this.entities) return;
           });
@@ -68,6 +84,11 @@ export class EntitiesComponent implements OnInit {
   addTask(entity) {
     this.taskForm.addTask(entity);
     this.sidenavRight.open();
+  }
+
+  selectEntity(entity) {
+    //this.sidenavRight.open();
+    this.onSelectEntity.emit(entity);
   }
 
 }

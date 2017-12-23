@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs/Subscription';
@@ -8,12 +8,17 @@ import { MeteorObservable } from 'meteor-rxjs';
 import { Entity } from "../../../api/server/models/entity";
 import { Entities } from "../../../api/server/collections/entities";
 
+import { SidenavService } from '../sidenav.service';
+
 @Component({
   selector: 'app-entity',
   templateUrl: './entity.component.html',
   styleUrls: ['./entity.component.scss']
 })
 export class EntityComponent implements OnInit {
+  @ViewChild('sidenavRight') public sidenavRight;
+  @ViewChild('versionForm') public versionForm;
+
   paramsSub: Subscription;
 
   entitySub: Subscription;
@@ -22,7 +27,14 @@ export class EntityComponent implements OnInit {
 
   taskType: string;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute,
+              private sidenavService: SidenavService) {
+    sidenavService.sidenavTriggered.subscribe(
+      val => {
+        console.log('Entity.component.ts - sidenav triggered from shared service');
+        this.openSidenav();
+      }); 
+  }
 
   ngOnInit() {
     this.paramsSub = this.route.params
@@ -44,5 +56,14 @@ export class EntityComponent implements OnInit {
       if (!this.entityId) {
         console.log('entity id not found');
       } 
+  }
+
+  openSidenav() {
+    this.versionForm.updateVersion();
+    this.sidenavRight.open();
+  }
+
+  onSelectVersion($event) {
+    console.log($event);
   }
 }

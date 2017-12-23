@@ -17,11 +17,6 @@ export class SidenavService {
   }
 
   toggleSidenavRight() {
-    //return this.sidenavRight.toggle();
     this.source.next();
-  }
-
-  openEntityForm() {
-    return this.sidenavRight.toggle();
   }
 }

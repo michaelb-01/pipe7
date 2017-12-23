@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
@@ -16,6 +16,8 @@ import { Versions } from "../../../api/server/collections/versions";
   styleUrls: ['./versions.component.scss']
 })
 export class VersionsComponent implements OnInit {
+  @Output() onSelect = new EventEmitter();
+
   paramsSub: Subscription;
 
   versionsSub: Subscription;
@@ -85,6 +87,10 @@ export class VersionsComponent implements OnInit {
           this.versions = Versions.find({"entity.entityId": this.entityId});
         });
       });
+  }
+
+  selectVersion(version) {
+    this.onSelect.emit(version);
   }
 
   ngOnDestroy() {

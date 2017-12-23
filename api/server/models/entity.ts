@@ -24,7 +24,7 @@ export class Entity implements IEntity {
   _id?: Mongo.ObjectID;
   job: job = new job();
   name: string = '';
-  type: string = '';
+  type: string = 'shot';
   tasks?: any[] = [];
   status: string = 'notStarted';
   thumbUrl?: string = '';

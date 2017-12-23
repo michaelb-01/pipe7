@@ -28,8 +28,8 @@ export class JobComponent implements OnInit {
               private sidenavService: SidenavService) {
     sidenavService.sidenavTriggered.subscribe(
       val => {
+        this.onCreateEntity();
         console.log('sidenav triggered from shared service');
-        this.openSidenav();
       });
   }
 
@@ -52,9 +52,14 @@ export class JobComponent implements OnInit {
     });
   }
 
-  openSidenav() {
+  onCreateEntity() {
+    this.entityForm.resetEntity();
     this.entityForm.updateJob(this.job);
     this.sidenavRight.open();
   }
 
+  onSelectEntity(entity) {
+    this.entityForm.updateEntity(entity);
+    this.sidenavRight.open();
+  }
 }

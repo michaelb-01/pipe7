@@ -1,6 +1,8 @@
 import { site, jobStructure, shotStructure } from "./settings";
 //import mkdirp = require('mkdirp');
 import * as mkdirp from 'mkdirp';
+import fs = require('fs');
+
 //import * as path from 'path';
 const path = require('path');
 var cp = require("child_process");
@@ -21,6 +23,20 @@ function createFolder(path) {
       }
       //else { console.log('success'); }
   });
+}
+
+function deleteFolderRecursive(path) {
+  if( fs.existsSync(path) ) {
+    fs.readdirSync(path).forEach(function(file,index){
+      var curPath = path + "/" + file;
+      if(fs.lstatSync(curPath).isDirectory()) { // recurse
+        deleteFolderRecursive(curPath);
+      } else { // delete file
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(path);
+  }
 }
 
 function buildDir(folder,parentFolder) {
@@ -89,7 +105,6 @@ Meteor.methods({
   // },
 
   createJob(job,numShots) {
-    //job._id = new Mongo.ObjectID();
     if (!('_id' in job)) {
       job._id = new Mongo.ObjectID();
     }
@@ -130,9 +145,27 @@ Meteor.methods({
   },
 
   createEntity(entity) {
-    Entities.insert(entity);
+    if (!('_id' in entity)) {
+      entity._id = new Mongo.ObjectID();
+    }
+
+    // using update/upsert so documents with the same name cannot be create
+
+    Entities.update(
+       { '$and': [ { "job.jobId":entity.job.jobId }, { name: entity.name }]},
+       entity,
+       { upsert: true }
+    )
+
+    //Entities.insert(entity);
     //createFolder(entity.path);
     buildDir(shotStructure, entity.path);
+  },
+
+  deleteEntity(entity) {
+    Entities.remove( {"_id": entity._id});
+
+    deleteFolderRecursive(entity.path);
   },
 
   createAsset(jobName, jobClient, assetName) {
