@@ -18,6 +18,8 @@ import { MeteorObservable } from 'meteor-rxjs';
 
 import { site, jobStructure, shotStructure } from "../settings";
 
+//import { upload } from '../methods';
+
 declare var Fake: any;
 declare var Accounts: any;
 
@@ -275,6 +277,16 @@ export function createJobs() {
     /////// CREATE JOB IN DATABASE ///////
     this.jobId = Jobs.insert(jobs[i]);
 
+    /////// CREATE THUMBNAIL IN DATABASE //////
+    // upload(file)
+    //   .then(() => {
+    //     this.uploading = false;
+    //   })
+    //   .catch((error) => {
+    //     this.uploading = false;
+    //     console.log(`Something went wrong!`, error);
+    //   });
+
     ///////// CREATE JOB ON DISK /////////
     Meteor.call('createJob', jobs[i], 0, function(error, result) {
       if (error) {
@@ -282,7 +294,7 @@ export function createJobs() {
       } else {
         console.log('RETURNED A JOB RESULT!' + result);
       }
-    },
+    });
 
     // MeteorObservable.call('createJob', jobs[i], 0).subscribe({
     //   error: (e: Error) => {

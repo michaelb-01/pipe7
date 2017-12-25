@@ -1,14 +1,42 @@
 import { site, jobStructure, shotStructure } from "./settings";
 //import mkdirp = require('mkdirp');
 import * as mkdirp from 'mkdirp';
-import fs = require('fs');
-
+//import fs = require('fs');
+import * as fs from 'fs'
+import { Future } from 'fibers/future';
 //import * as path from 'path';
 const path = require('path');
-var cp = require("child_process");
+//const cp = require("child_process");
 
 import { Jobs } from "./server/collections/jobs";
 import { Entities } from './server/collections/entities';
+
+// import { UploadFS } from 'meteor/jalik:ufs';
+// import { ImagesStore } from './server/collections/images';
+
+// export function upload(data: File, imgWidth: number, imgHeight: number): Promise<any> {
+//   return new Promise((resolve, reject) => {
+//     console.log('upload image');
+//     // pick from an object only: name, type and size
+//     const file = {
+//       name: data.name,
+//       type: data.type,
+//       size: data.size,
+//       width: imgWidth,
+//       height: imgHeight
+//     };
+ 
+//     const upload = new UploadFS.Uploader({
+//       data,
+//       file,
+//       store: ImagesStore,
+//       onError: reject,
+//       onComplete: resolve
+//     });
+ 
+//     upload.start();
+//   });
+// }
 
 function camelize(str) {
   return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(letter, index) {
@@ -55,39 +83,39 @@ function buildDir(folder,parentFolder) {
   }
 }
 
-function createShots(job,numShots) {
-  let shotPath = job.path + '3d/shots/';
+// function createShots(job,numShots) {
+//   let shotPath = job.path + '3d/shots/';
 
-  for (var i = 1; i <= numShots; i++) {
-    let name = 'sh' + pad(i,3) + '0';
-    let path = shotPath + name;
+//   for (var i = 1; i <= numShots; i++) {
+//     let name = 'sh' + pad(i,3) + '0';
+//     let path = shotPath + name;
 
-    let entity = {
-      '_id': new Mongo.ObjectID(),
-      'job': {
-        'jobId': job._id._str,
-        'jobName': job.name
-      },
-      'name': name,
-      'type': 'shot',
-      'status': 'Not Started',
-      'todos':[],
-      //'thumbUrl': '../assets/img/' + thumb + '_sprites.jpg',
-      //'media': '../assets/video/' + thumb + '.mov',
-      'path': path,
-      'public': true
-    }
+//     let entity = {
+//       '_id': new Mongo.ObjectID(),
+//       'job': {
+//         'jobId': job._id._str,
+//         'jobName': job.name
+//       },
+//       'name': name,
+//       'type': 'shot',
+//       'status': 'Not Started',
+//       'todos':[],
+//       //'thumbUrl': '../assets/img/' + thumb + '_sprites.jpg',
+//       //'media': '../assets/video/' + thumb + '.mov',
+//       'path': path,
+//       'public': true
+//     }
 
-    // insert in database
-    createEntity(entity);
+//     // insert in database
+//     createEntity(entity);
 
-    // make shot directory
-    mkdirp(shotPath + name);
+//     // make shot directory
+//     mkdirp(shotPath + name);
 
-    // build shot structure 
-    buildDir(shotStructure,path+'/');
-  }
-}
+//     // build shot structure 
+//     buildDir(shotStructure,path+'/');
+//   }
+// }
 
 
 Meteor.methods({
@@ -186,11 +214,35 @@ Meteor.methods({
     buildDir(shotStructure, path+'/');
   },
 
-  openMaya() {
-    console.log('open maya');
-    //cp.exec("open -a /Applications/Autodesk/maya2017/Maya.app"); // notice this without a callback..
-    cp.exec('open -n "/Applications/Houdini/Houdini16.5.268/Houdini FX 16.5.268.app"');
+  // readImage: function(url) {
+  //   console.log('read file from: ' + url);
+
+  //   //var Future = Npm.require('fibers/future');
+  //   // var myFuture = new Future();
+
+  //   fs.readFile(String(url), function read(error, result) {
+  //     if(error){
+  //       myFuture.throw(error);
+  //     }else{
+  //       myFuture.return(new Buffer(result).toString('base64'));
+  //     }
+  //   });
+
+  //   // return myFuture.wait();
+  // }
+
+  readImage2(url) {
+    let file = fs.readFileSync(url,'base64');
+
+    return file;
   }
+
+
+  // openMaya() {
+  //   console.log('open maya');
+  //   //cp.exec("open -a /Applications/Autodesk/maya2017/Maya.app"); // notice this without a callback..
+  //   cp.exec('open -n "/Applications/Houdini/Houdini16.5.268/Houdini FX 16.5.268.app"');
+  // }
 
 });
 

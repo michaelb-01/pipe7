@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MeteorObservable } from 'meteor-rxjs';
 
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, Event } from '@angular/router';
 
 import { SidenavService }     from './sidenav.service';
 
@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
   constructor(private sidenavService: SidenavService,
               private router: Router) {
     this.router.events.filter((event) => event instanceof NavigationEnd)
-                      .subscribe(val=>{
+                      .subscribe((val: NavigationEnd)=>{
                         if (val.url.indexOf('/job/') > -1 || val.url.indexOf('/entity/') > -1) {
                           this.tooltip = 'Create Entity';
                         }

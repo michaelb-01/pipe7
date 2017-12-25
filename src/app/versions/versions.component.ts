@@ -22,7 +22,7 @@ export class VersionsComponent implements OnInit {
 
   versionsSub: Subscription;
   entityId: string;
-  versions: Observable<Version[]>;
+  versions;
   taskType: string;
 
   on = '#ff0d0d';
