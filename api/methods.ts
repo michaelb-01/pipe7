@@ -231,11 +231,26 @@ Meteor.methods({
   //   // return myFuture.wait();
   // }
 
-  readImage2(url) {
-    let file = fs.readFileSync(url,'base64');
+  readImageWrapped() {
 
-    return file;
-  }
+  },
+
+  readImage2(url) {
+    console.log('read file from: ' + url);
+
+    var Future = Npm.require('fibers/future');
+    var myFuture = new Future();
+
+    fs.readFile(String(url), function read(error, result) {
+      if(error){
+        myFuture.throw(error);
+      }else{
+        myFuture.return(new Buffer(result).toString('base64'));
+      }
+    });
+
+    return myFuture.wait();
+  },
 
 
   // openMaya() {

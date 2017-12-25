@@ -14,6 +14,8 @@ export class ThumbnailComponent implements AfterViewInit {
   @Input() thumbUrl;
   @Input() seek;
 
+  imageSrc = '';
+
   image;
   imageSub: Observable<any>;
 
@@ -60,11 +62,10 @@ export class ThumbnailComponent implements AfterViewInit {
     image.addEventListener('load', (e) => this.handleImageLoad(e));
     //image.src = this.thumbUrl;
 
-    MeteorObservable.call('readImage2', path).subscribe((res) => {
+    MeteorObservable.call('readImage2', this.thumbUrl).subscribe((res) => {
         // Handle success and response from server!
-        console.log('readImage2 surccess');
-        this.thumbUrl = "data:image/jpg;base64," + res;
-        image.src = this.thumbUrl;
+        this.imageSrc = "data:image/jpg;base64," + res;
+        image.src = this.imageSrc;
      }, (err) => {
        console.log('error');
        console.log(err);
@@ -85,8 +86,6 @@ export class ThumbnailComponent implements AfterViewInit {
 
   handleImageLoad(event): void {
     //this.image.url = this.thumbUrl;
-    console.log('image loaded');
-    console.log(event);
 
     let imgWidth = 9600;// event.target.width;
     let imgHeight = 180;//event.target.height;
